@@ -48,14 +48,28 @@ function cb(row, collumn, nbr_of_bomb) { //create_bomb
 
             coord_bomb_placed.push("row" + row_bomb + "collumn" + collumn_bomb);
             let bomb = document.getElementById("row" + row_bomb + "collumn" + collumn_bomb);
-            bomb.textContent = i;
+            bomb.textContent = "10";
             console.log(row_bomb, collumn_bomb, i)
             i++
 
 
-        } else {
-
-            console.log("weshs lle faté")
         }
+
     }
+}
+
+
+
+//! 3 CREER UNE FONCTION QUI VA PARCOURRIR LE TABLEAU POUR CHAQUE CASES ET VA REGARDER LES BOMBES PRESENTES
+//!   DANS LES CASES ADJACENTE ET VA METTRE UN NOMBRE
+
+function create_nbr_above_bomb(row, collumn) {
+    for (let i = 0; i < row; i++) {
+        for (let j = 0; j < collumn; j++) {
+
+
+        }
+
+    }
+
 }
