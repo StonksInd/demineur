@@ -16,7 +16,7 @@ function crc(row, collumn) { //create_grid_demineur
 
             let new_collumn = document.createElement("button");
             new_collumn.setAttribute("id", "row" + i + "collumn" + j)
-            new_collumn.textContent = "0_9_10";
+            new_collumn.textContent = "0";
             let demineur_grid_collumn = document.getElementById("row" + i);
             demineur_grid_collumn.appendChild(new_collumn);
 
@@ -30,4 +30,32 @@ function crc(row, collumn) { //create_grid_demineur
 }
 
 
+//! 2 CREER UNE FONCTION QUI VA AVOIR EN ENTREE 2 NOMBRES DE COORDONNEE ALLEATOIRE EN FONCTION DE L ET l
+//!   ET QUI VA PLACER X NOMBRE DE BOMBE EN STOCKANT LES CO DANS UN TAB POUR PAS QU4ILL Y AI DE REDONDANCES 
 
+
+
+function cb(row, collumn, nbr_of_bomb) { //create_bomb
+
+    let coord_bomb_placed = [];
+    for (let i = 0; i < nbr_of_bomb;) {
+
+        let row_bomb = Math.floor(Math.random() * row);
+        let collumn_bomb = Math.floor(Math.random() * collumn);
+
+
+        if (!(coord_bomb_placed.includes("row" + row_bomb + "collumn" + collumn_bomb))) {
+
+            coord_bomb_placed.push("row" + row_bomb + "collumn" + collumn_bomb);
+            let bomb = document.getElementById("row" + row_bomb + "collumn" + collumn_bomb);
+            bomb.textContent = i;
+            console.log(row_bomb, collumn_bomb, i)
+            i++
+
+
+        } else {
+
+            console.log("weshs lle faté")
+        }
+    }
+}
