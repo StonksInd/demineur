@@ -1,5 +1,5 @@
 !1 // ! CREER UNE FONCTION QUI VA AFFFICHER UN TABLEAU ET QUI PREND EN ENTREE Lxl CASES
-
+grid_demineur = [];
 function crc(row, collumn) { //create_grid_demineur
 
 
@@ -10,6 +10,9 @@ function crc(row, collumn) { //create_grid_demineur
         new_row.setAttribute("id", "row" + i)
         let demineur_grid_row = document.getElementById('demineur_grid');
         demineur_grid_row.appendChild(new_row);
+        let row_tab = []
+        grid_demineur.push(row_tab);
+
 
         for (let j = 0; j < collumn; j++) {
 
@@ -19,7 +22,9 @@ function crc(row, collumn) { //create_grid_demineur
             new_collumn.textContent = "00";
             let demineur_grid_collumn = document.getElementById("row" + i);
             demineur_grid_collumn.appendChild(new_collumn);
-
+            let collumn_tab = [];
+            grid_demineur[i].push(collumn_tab);
+            new_collumn.setAttribute("onclick", "show_on_click(" + i + ", " + j + ")");
         }
 
     }
@@ -47,9 +52,10 @@ function cb(row, collumn, nbr_of_bomb) { //create_bomb
         if (!(coord_bomb_placed.includes("row" + row_bomb + "collumn" + collumn_bomb))) {
 
             coord_bomb_placed.push("row" + row_bomb + "collumn" + collumn_bomb);
-            let bomb = document.getElementById("row" + row_bomb + "collumn" + collumn_bomb);
-            bomb.textContent = "10";
+            let bomb = document.getElementById("row" + row_bomb + "collumn" + collumn_bomb);//TODO a enlever 
+            bomb.textContent = "10"; //TODO a enlever 
             //console.log(row_bomb, collumn_bomb, i);
+            grid_demineur[row_bomb][collumn_bomb] = "bombe";
             i++;
 
 
@@ -84,15 +90,25 @@ function cnab(row, collumn) {//create_nbr_above_bomb
                     }
 
                 });
-                document.getElementById("row" + i + "collumn" + j).textContent = "0" + bomb_count;
-                console.log(i, j, bomb_count);
+                grid_demineur[i][j] = "0" + bomb_count;
+                //document.getElementById("row" + i + "collumn" + j).textContent = "0" + bomb_count;// TODO a enlever
 
-            } else (console.log("il y a une bombe en ", i, j))
+                // console.log(i, j, bomb_count);
+
+            } //else (console.log("il y a une bombe en ", i, j))
         }
 
-    }
+    } console.log(grid_demineur);
 
-}
+} cnab(10, 10)
 
 //! 4 CREER UNE FONCTION QUI PERMET DE REVELLER LA DONNE DE LA CASE CLQIUE (SI BOMBE METTRE FIN AU JEU)
 //! stocker dans un tab toute la grid avec row collumn et quand on clique sur une case appel une fonction 
+
+function show_on_click(row, collumn) {
+
+    document.getElementById("row" + row + "collumn" + collumn).textContent = grid_demineur[row][collumn];
+    if (grid_demineur[row][collumn] == "bombe") {
+        alert("vous avez perrdu")
+    }
+}
