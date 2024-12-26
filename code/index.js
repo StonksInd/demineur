@@ -93,3 +93,6 @@ function cnab(row, collumn) {//create_nbr_above_bomb
     }
 
 }
+
+//! 4 CREER UNE FONCTION QUI PERMET DE REVELLER LA DONNE DE LA CASE CLQIUE (SI BOMBE METTRE FIN AU JEU)
+//! stocker dans un tab toute la grid avec row collumn et quand on clique sur une case appel une fonction 
