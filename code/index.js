@@ -19,7 +19,7 @@ function crc(row, collumn) { //create_grid_demineur
 
             let new_collumn = document.createElement("button");
             new_collumn.setAttribute("id", "row" + i + "collumn" + j)
-            new_collumn.textContent = "--";
+            new_collumn.textContent = "__";
             let demineur_grid_collumn = document.getElementById("row" + i);
             demineur_grid_collumn.appendChild(new_collumn);
             let collumn_tab = [];
@@ -121,23 +121,27 @@ function show_on_click(row, collumn) {
 
 
 function reveal_blank(row, collumn) {
-    console.log("ici");
 
     if (grid_demineur[row][collumn] == "00") {
-        console.log("ici")
+
 
         tab_3x3_coord_case.forEach(coord => {
 
             if ((row + coord[0]) < row_grid && (row + coord[0]) >= 0 && (collumn + coord[1]) < collumn_grid && (collumn + coord[1]) >= 0) {
-                console.log("ici");
+
                 document.getElementById("row" + row + "collumn" + collumn).textContent = grid_demineur[row][collumn];
-                grid_demineur[row][collumn] = "AA"
+                grid_demineur[row][collumn] = "55";
                 if (grid_demineur[row + coord[0]][collumn + coord[1]] == "00") {
 
                     reveal_blank((row + coord[0]), (collumn + coord[1]));
-                    console.log("ici");
 
+
+
+                } else {
+                    document.getElementById("row" + row + "collumn" + collumn).textContent = grid_demineur[row + coord[0]][collumn + coord[1]];
                 }
+
+
             }
         });
 
