@@ -1,5 +1,21 @@
-!1 // ! CREER UNE FONCTION QUI VA AFFFICHER UN TABLEAU ET QUI PREND EN ENTREE Lxl CASES
+// ! 1 CREER UNE FONCTION QUI VA AFFFICHER UN TABLEAU ET QUI PREND EN ENTREE Lxl CASES
 grid_demineur = [];
+function handleMouseClick(event, i, j) {
+
+    if (event.button === 2) {
+
+        flag(i, j);
+
+    } else if (event.button === 0) {
+
+        document.getElementById("row" + i + "collumn" + j).textContent = grid_demineur[i][j];
+        reveal_blank(i, j);
+
+        if (grid_demineur[i][j] == "10") {
+            alert("vous avez perdu");
+        }
+    }
+}
 function crc(row, collumn) { //create_grid_demineur
 
 
@@ -24,7 +40,14 @@ function crc(row, collumn) { //create_grid_demineur
             demineur_grid_collumn.appendChild(new_collumn);
             let collumn_tab = [];
             grid_demineur[i].push(collumn_tab);
-            new_collumn.setAttribute("onclick", "show_on_click(" + i + ", " + j + ")");
+
+
+
+            new_collumn.addEventListener("mousedown", (event) => handleMouseClick(event, i, j));
+            new_collumn.addEventListener("contextmenu", function (event) {
+                event.preventDefault();
+            });
+
         }
 
     }
@@ -44,28 +67,28 @@ crc(row_grid, collumn_grid);
 
 function cb(row, collumn, nbr_of_bomb) { //create_bomb
 
-    let coord_bomb_placed = [];
+    coord_bomb_placed = [];
     for (let i = 0; i < nbr_of_bomb;) {
 
         let row_bomb = Math.floor(Math.random() * row);
         let collumn_bomb = Math.floor(Math.random() * collumn);
 
 
-        if (!(coord_bomb_placed.includes("row" + row_bomb + "collumn" + collumn_bomb))) {
+        if (!(coord_bomb_placed.includes([row_bomb, collumn_bomb]))) {
 
-            coord_bomb_placed.push("row" + row_bomb + "collumn" + collumn_bomb);
-            //let bomb = document.getElementById("row" + row_bomb + "collumn" + collumn_bomb);//TODO a enlever 
-            //bomb.textContent = "10"; //TODO a enlever 
-            //console.log(row_bomb, collumn_bomb, i);
+            coord_bomb_placed.push([row_bomb, collumn_bomb]);
+
+
             grid_demineur[row_bomb][collumn_bomb] = "10";
             i++;
 
 
         }
 
-    }
+    } console.log(coord_bomb_placed);
 }
-cb(10, 10, 5);
+bomb_nbr = 2
+cb(row_grid, collumn_grid, bomb_nbr);
 
 
 
@@ -93,11 +116,9 @@ function cnab(row, collumn) {//create_nbr_above_bomb
 
                 });
                 grid_demineur[i][j] = "0" + bomb_count;
-                //document.getElementById("row" + i + "collumn" + j).textContent = "0" + bomb_count;// TODO a enlever
 
-                // console.log(i, j, bomb_count);
 
-            } //else (console.log("il y a une bombe en ", i, j))
+            }
         }
 
     } console.log(grid_demineur);
@@ -107,14 +128,7 @@ function cnab(row, collumn) {//create_nbr_above_bomb
 //! 4 CREER UNE FONCTION QUI PERMET DE REVELLER LA DONNE DE LA CASE CLQIUE (SI BOMBE METTRE FIN AU JEU)
 //! stocker dans un tab toute la grid avec row collumn et quand on clique sur une case appel une fonction 
 
-function show_on_click(row, collumn) {
 
-    document.getElementById("row" + row + "collumn" + collumn).textContent = grid_demineur[row][collumn];
-    reveal_blank(row, collumn);
-    if (grid_demineur[row][collumn] == "10") {
-        alert("vous avez perdu");
-    }
-}
 
 //! 5 CREER UNE FONCTION QUI VA PERMETTRE DE REVELLER TOUTES LES CASES QUI N'ONT PAS DE DONNE
 //!   IL FAUT AUSSI REVELLER LES CASES DANS UN RAYON DE 3X3 AUTOUR DE LA CASE SI C'EST UNE CASE A NUM ON ARRETE SINON ON CONTINUE
@@ -125,7 +139,7 @@ function reveal_blank(row, collumn) {
     if (grid_demineur[row][collumn] == "00") {
 
         document.getElementById("row" + row + "collumn" + collumn).textContent = grid_demineur[row][collumn];
-        grid_demineur[row][collumn] = "55";
+        grid_demineur[row][collumn] = "";
         tab_3x3_coord_case.forEach(coord => {
 
             if ((row + coord[0]) < row_grid && (row + coord[0]) >= 0 && (collumn + coord[1]) < collumn_grid && (collumn + coord[1]) >= 0) {
@@ -139,7 +153,7 @@ function reveal_blank(row, collumn) {
 
                 } else if (grid_demineur[row + coord[0]][collumn + coord[1]] != "55") {
                     document.getElementById("row" + (row + coord[0]) + "collumn" + (collumn + coord[1])).textContent = grid_demineur[row + coord[0]][collumn + coord[1]];
-                    grid_demineur[row + coord[0]][collumn + coord[1]] = "55";
+                    //grid_demineur[row + coord[0]][collumn + coord[1]] = "55";
                 }
 
 
@@ -150,3 +164,40 @@ function reveal_blank(row, collumn) {
 
 
 }
+
+
+//! 6 POUVOIR POSER DES DRAPEAU AVEC LE CLIQUE DROIT SE QUI DESACTIVE LA CASE AVEC UN COMPTEUR ECT ...
+
+
+flag_count = 0;
+
+function flag(row, collumn) {
+    let well_placed_flag = 0;
+    let button = document.getElementById("row" + row + "collumn" + collumn);
+    if (button.textContent == "🚩") {
+        button.textContent = "__";
+        button.addEventListener("mousedown", button.handler);
+        flag_count -= 1;
+    } else {
+        button.textContent = "🚩";
+        button.removeEventListener("mousedown", button.handler);
+        flag_count += 1;
+
+    }
+    if (flag_count == bomb_nbr) {
+        coord_bomb_placed.forEach(bomb_tab => {
+            bomb = document.getElementById("row" + bomb_tab[0] + "collumn" + bomb_tab[1]);
+            if (bomb.textContent == "🚩") {
+                well_placed_flag += 1;
+            }
+
+        });
+        if (well_placed_flag == bomb_nbr) {
+            alert("c'est gagné")
+        }
+
+    }
+
+
+}
+
