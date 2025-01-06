@@ -8,12 +8,14 @@ function handleMouseClick(event, i, j) {
 
     } else if (event.button === 0) {
 
-        document.getElementById("row" + i + "collumn" + j).textContent = grid_demineur[i][j];
-        reveal_blank(i, j);
-
         if (grid_demineur[i][j] == "10") {
             alert("vous avez perdu");
         }
+
+        document.getElementById("row" + i + "collumn" + j).textContent = grid_demineur[i][j];
+        reveal_blank(i, j);
+
+
     }
 }
 function crc(row, collumn) { //create_grid_demineur
@@ -43,9 +45,9 @@ function crc(row, collumn) { //create_grid_demineur
 
 
 
-            new_collumn.addEventListener("mousedown", (event) => handleMouseClick(event, i, j));
             new_collumn.addEventListener("contextmenu", function (event) {
-                event.preventDefault();
+                event.preventDefault(); // Empêche l'ouverture du menu contextuel.
+                flag(i, j); // Appelle la fonction pour poser ou retirer un drapeau.
             });
 
         }
@@ -133,37 +135,38 @@ function cnab(row, collumn) {//create_nbr_above_bomb
 //! 5 CREER UNE FONCTION QUI VA PERMETTRE DE REVELLER TOUTES LES CASES QUI N'ONT PAS DE DONNE
 //!   IL FAUT AUSSI REVELLER LES CASES DANS UN RAYON DE 3X3 AUTOUR DE LA CASE SI C'EST UNE CASE A NUM ON ARRETE SINON ON CONTINUE
 
-
+let revealed_cases = Array(row_grid).fill(null).map(() => Array(collumn_grid).fill(false));
 function reveal_blank(row, collumn) {
 
-    if (grid_demineur[row][collumn] == "00") {
+    if (grid_demineur[row][collumn] == "00" && !revealed_cases[row][collumn]) {
 
         document.getElementById("row" + row + "collumn" + collumn).textContent = grid_demineur[row][collumn];
-        grid_demineur[row][collumn] = "55";
+        revealed_cases[row][collumn] = true;
+
+
         tab_3x3_coord_case.forEach(coord => {
 
             if ((row + coord[0]) < row_grid && (row + coord[0]) >= 0 && (collumn + coord[1]) < collumn_grid && (collumn + coord[1]) >= 0) {
 
 
-                if (grid_demineur[row + coord[0]][collumn + coord[1]] == "00") {
-
-                    reveal_blank((row + coord[0]), (collumn + coord[1]));
-
-
-
-                } else if (grid_demineur[row + coord[0]][collumn + coord[1]] != "55") {
-                    document.getElementById("row" + (row + coord[0]) + "collumn" + (collumn + coord[1])).textContent = grid_demineur[row + coord[0]][collumn + coord[1]];
-                    //grid_demineur[row + coord[0]][collumn + coord[1]] = "55";
-                }
+                reveal_blank((row + coord[0]), (collumn + coord[1]));
 
 
             }
+
         });
+    } else if (!revealed_cases[row][collumn]) {
+        document.getElementById("row" + row + "collumn" + collumn).textContent = grid_demineur[row][collumn];
+        revealed_cases[row][collumn] = true;
+
+
 
     }
 
 
 }
+
+
 
 
 //! 6 POUVOIR POSER DES DRAPEAU AVEC LE CLIQUE DROIT SE QUI DESACTIVE LA CASE AVEC UN COMPTEUR ECT ...
@@ -174,13 +177,13 @@ flag_count = 0;
 function flag(row, collumn) {
     let well_placed_flag = 0;
     let button = document.getElementById("row" + row + "collumn" + collumn);
+
     if (button.textContent == "🚩") {
         button.textContent = "__";
-        button.addEventListener("mousedown", button.handler);
         flag_count -= 1;
+
     } else {
         button.textContent = "🚩";
-        button.removeEventListener("mousedown", button.handler);
         flag_count += 1;
 
     }
