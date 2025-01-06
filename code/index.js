@@ -87,7 +87,7 @@ function cb(row, collumn, nbr_of_bomb) { //create_bomb
 
     } console.log(coord_bomb_placed);
 }
-bomb_nbr = 2
+bomb_nbr = 5
 cb(row_grid, collumn_grid, bomb_nbr);
 
 
@@ -139,7 +139,7 @@ function reveal_blank(row, collumn) {
     if (grid_demineur[row][collumn] == "00") {
 
         document.getElementById("row" + row + "collumn" + collumn).textContent = grid_demineur[row][collumn];
-        grid_demineur[row][collumn] = "";
+        grid_demineur[row][collumn] = "55";
         tab_3x3_coord_case.forEach(coord => {
 
             if ((row + coord[0]) < row_grid && (row + coord[0]) >= 0 && (collumn + coord[1]) < collumn_grid && (collumn + coord[1]) >= 0) {
