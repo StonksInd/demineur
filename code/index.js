@@ -41,7 +41,7 @@ function handleMouseClick(event, i, j) {
         }
     }
 }
-function create_grid_demineur(row, collumn) { //create_grid_demineur
+function create_grid_demineur(row, collumn) {
 
     for (let i = 0; i < row; i++) {
 
@@ -63,10 +63,10 @@ function create_grid_demineur(row, collumn) { //create_grid_demineur
             grid_demineur[i].push(collumn_tab);
 
             new_collumn.addEventListener("mousedown", function (event) {
-                handleMouseClick(event, i, j); // Appelle la fonction handleMouseClick
+                handleMouseClick(event, i, j);
             });
             new_collumn.addEventListener("contextmenu", function (event) {
-                event.preventDefault(); // Empêche l'ouverture du menu contextue
+                event.preventDefault();
             });
 
         }
