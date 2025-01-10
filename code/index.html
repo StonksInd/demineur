@@ -7,8 +7,15 @@
 </head>
 <body>
     <header class="bg-gray-500 flex items-center justify-center">
-        
-        ICI SERONT LES BOUTONS</header>
+        <ul id="difficulty_choisie" style="display: none;"></ul>
+        <ul id="difficulty">
+            <button onclick="difficulty(1)">Débutant : 9x9 cases, 10 bombes</button>
+            <button onclick="difficulty(2)">Intermédiaire : 16x16 cases, 40 bombes</button>
+            <button onclick="difficulty(3)">Expert : 22x22 cases, 100 bombes</button>
+            <button onclick="difficulty(4)">Maître : 30x30 cases, 250 bombes</button>
+        </ul>
+        <button id="start" onclick="start_game()"  style="display: none;"> Lancer le jeu</button>
+    </header>
     <div id="demineur_grid" class="bg-gray-900 text-white flex items-center justify-center h-screen justify-between mb-4">
         
     </div>
