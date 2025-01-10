@@ -81,17 +81,21 @@ function create_bomb(row, collumn, nbr_of_bomb) {
         let row_bomb = Math.floor(Math.random() * row);
         let collumn_bomb = Math.floor(Math.random() * collumn);
 
-        if (!(coord_bomb_placed.includes([row_bomb, collumn_bomb]))) {
+        let already_placed = false;
+        for (let j = 0; j < coord_bomb_placed.length; j++) {
+            if (coord_bomb_placed[j][0] === row_bomb && coord_bomb_placed[j][1] === collumn_bomb) {
+                already_placed = true;
+                break;
+            }
+        }
 
+        if (!already_placed) {
             coord_bomb_placed.push([row_bomb, collumn_bomb]);
-
             grid_demineur[row_bomb][collumn_bomb] = "💣";
             i++;
         }
-
-    } console.log(coord_bomb_placed);
+    }
 }
-
 function create_nbr_above_bomb(row, collumn) {
 
 
@@ -155,6 +159,7 @@ function start_game() {
     create_nbr_above_bomb(row_grid, collumn_grid);
     revealed_cases = Array(row_grid).fill(null).map(() => Array(collumn_grid).fill(false))
     start_timer();
+    document.getElementById("start").style.display = "none";
 
 }
 
