@@ -42,7 +42,7 @@ function handleMouseClick(event, i, j) {
     }
 }
 function create_grid_demineur(row, collumn) {
-
+    //! ouais
     for (let i = 0; i < row; i++) {
 
         let new_row = document.createElement("ul");
